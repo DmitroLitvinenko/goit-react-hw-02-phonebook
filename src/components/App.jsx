@@ -1,8 +1,10 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 import { Filter } from './Filter/Filter';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
+import { Container } from './ContactForm/ContactForm.styled';
 
 export class App extends Component {
   state = {
@@ -52,7 +54,7 @@ export class App extends Component {
     const filteredContacts = this.filterContacts();
 
     return (
-      <div>
+      <Container>
         <h1>Phonebook</h1>
         <ContactForm onAddContact={this.addContact} />
 
@@ -65,7 +67,23 @@ export class App extends Component {
           contacts={filteredContacts}
           onDeleteContact={this.deleteContact}
         />
-      </div>
+      </Container>
     );
   }
 }
+
+App.propTypes = {
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+    })
+  ),
+  filter: PropTypes.string,
+  addContact: PropTypes.func,
+  checkContact: PropTypes.func,
+  deleteContact: PropTypes.func,
+  handleFilterChange: PropTypes.func,
+  filterContacts: PropTypes.func,
+};
